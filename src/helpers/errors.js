@@ -18,8 +18,24 @@ class NotFoundContact extends contactsBookErrors {
   }
 }
 
+class RegistrationConflictError extends contactsBookErrors {
+  constructor(message) {
+    super(message);
+    this.status = 409;
+  }
+}
+
+class UnauthorizeError extends contactsBookErrors {
+  constructor(message) {
+    super(message);
+    this.status = 401;
+  }
+}
+
 module.exports = {
   contactsBookErrors,
   ValidationError,
-  NotFoundContact
+  NotFoundContact,
+  RegistrationConflictError,
+  UnauthorizeError,
 };
