@@ -1,6 +1,6 @@
 const { avatarSaver } = require('../helpers/avatarSaver')
 
-const { findUser } = require('../model/authService')
+const { findUser } = require('../services/authService')
 
 const avatarUpdater = async (req, res) => {
   const { _id } = req.user;

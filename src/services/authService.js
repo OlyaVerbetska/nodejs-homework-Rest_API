@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { v4: uuidv4 } = require('uuid')
 
 const { UsersModel } = require('../db/usersModel');
 const {
@@ -13,10 +14,18 @@ const createUser = async (email, password) => {
     throw new RegistrationConflictError('Email in use');
   }
 
+  // ================ new
+  const verifyToken = uuidv4()
+  // ================
+
   const user = new UsersModel({
     email,
     password,
+    // ======== new
+    verifyToken
+    // =======
   });
+  console.log(user)
   return await user.save();
 };
 
@@ -47,4 +56,15 @@ const findUser = async (id) => {
   return await UsersModel.findById(id);
 };
 
-module.exports = { createUser, loginUser, findUser };
+const findUserVerify = async({ verificationToken }) => {
+  const user = await UsersModel.findOne({ verifyToken: verificationToken })
+  if (user) {
+    user.verifyToken = null
+    user.isVerify = true
+    await user.save();
+    return true
+  }
+  return false
+}
+
+module.exports = { createUser, loginUser, findUser, findUserVerify };

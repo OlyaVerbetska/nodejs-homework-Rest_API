@@ -11,6 +11,7 @@ const {
 
 const AuthController = require('../../controllers/authController');
 const FilesController = require('../../controllers/filesController');
+const { verifyController } = require('../../controllers/verifyController')
 
 router.post(
   '/signup',
@@ -30,6 +31,11 @@ router.patch(
   upload.single('avatar'),
   authMiddleware,
   FilesController.avatarUpdater
+);
+
+router.get(
+  '/verify/:verificationToken',
+  verifyController
 );
 
 module.exports = router;

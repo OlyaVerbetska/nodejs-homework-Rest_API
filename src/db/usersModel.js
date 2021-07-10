@@ -28,8 +28,15 @@ const usersSchema = new Schema({
     default: function() {
       return gravatar.url(this.email, { protocol: 'http', s: '100' }, true)
     },
-  }
-
+  },
+  isVerify: {
+    type: Boolean,
+    default: false,
+  },
+  verifyToken: {
+    type: String,
+    required: [true, 'Verify token is required'],
+  },
 });
 
 usersSchema.pre('save', async function () {

@@ -1,4 +1,4 @@
-const { createUser, loginUser, findUser } = require('../model/authService');
+const { createUser, loginUser, findUser } = require('../services/authService');
 
 const registration = async (req, res) => {
   const { email, password } = req.body;
