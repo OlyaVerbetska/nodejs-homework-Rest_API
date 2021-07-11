@@ -38,12 +38,15 @@ const sendEmail = async(verificationToken, email) => {
     host: 'pop.i.ua',
     port: 465,
     auth: {
-      user: 'laima@i.ua',
+      user: process.env.SENDER_EMAIL_FROM,
+      pass: '5661956',
+
     },
   }
   const transporter = nodemailer.createTransport(config)
+
   const emailOptions = {
-    from: 'noreply@contactbook.ua',
+    from: 'noreply@contactsbook.com',
     to: email,
     subject: 'Account verification',
     html: emailBody
