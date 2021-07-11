@@ -29,6 +29,7 @@ const mailTemplateCreate = (verificationToken) => {
   };
 
   const emailBody = mailGenerator.generate(emailTemplate)
+  console.log('telo pisma', emailBody)
   return emailBody
 }
 

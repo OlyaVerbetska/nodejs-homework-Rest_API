@@ -35,7 +35,6 @@ const usersSchema = new Schema({
   },
   verifyToken: {
     type: String,
-    required: [true, 'Verify token is required'],
   },
 });
 
