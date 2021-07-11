@@ -35,12 +35,11 @@ const mailTemplateCreate = (verificationToken) => {
 const sendEmail = async(verificationToken, email) => {
   const emailBody = mailTemplateCreate(verificationToken)
   const config = {
-    host: 'i.ua',
-    port: 995,
+    host: 'smtp.ukr.net',
+    port: 465,
     auth: {
       user: process.env.SENDER_EMAIL_FROM,
-      pass: '5661956'
-
+      pass: process.env.SENDER_EMAIL_PASS
     },
     tls: {
       // do not fail on invalid certs
@@ -50,7 +49,8 @@ const sendEmail = async(verificationToken, email) => {
   const transporter = nodemailer.createTransport(config)
 
   const emailOptions = {
-    from: 'noreply@contactsbook.com',
+
+    from: process.env.SENDER_EMAIL_FROM,
     to: email,
     subject: 'Account verification',
     html: emailBody

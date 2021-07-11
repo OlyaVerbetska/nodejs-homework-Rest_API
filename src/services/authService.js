@@ -18,14 +18,10 @@ const createUser = async (email, password) => {
     throw new RegistrationConflictError('Email in use');
   }
 
-  // ================ new
   const verifyToken = uuidv4()
-  // ================
   try {
     await sendEmail(verifyToken, email)
   } catch (e) { throw new ServiceUnavailableError('Service Unavailable') }
-
-  // ================
 
   const user = new UsersModel({
     email,
@@ -70,17 +66,18 @@ const findUser = async (id) => {
   return await UsersModel.findById(id);
 };
 
-const findUserVerify = async({ verificationToken }) => {
-  const user = await UsersModel.findOne({ verifyToken: verificationToken })
-  if (user) {
-    user.verifyToken = null
-    user.isVerify = true
-    await user.save();
-    return true
+const findUserVerify = async(verifyToken) => {
+  const user = await UsersModel.findOne({ verifyToken })
+  console.log('from findUserVerify', user)
+  if (!user) {
+    return false
   }
-  return false
+  user.verifyToken = null
+  user.isVerify = true
+  await user.save();
+  return true
 }
-const checkVerify = async ({ email }) => {
+const checkVerify = async (email) => {
   const user = await UsersModel.findOne({ email: email })
   return user
 }
