@@ -38,6 +38,12 @@ class VerificationError extends contactsBookErrors {
     this.status = 404;
   }
 }
+class ServiceUnavailableError extends contactsBookErrors {
+  constructor(message) {
+    super(message);
+    this.status = 503;
+  }
+}
 
 module.exports = {
   contactsBookErrors,
@@ -45,5 +51,6 @@ module.exports = {
   NotFoundContact,
   RegistrationConflictError,
   UnauthorizeError,
-  VerificationError
+  VerificationError,
+  ServiceUnavailableError
 };

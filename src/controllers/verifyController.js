@@ -1,4 +1,5 @@
 const { findUserVerify, checkVerify } = require('../services/authService')
+const { sendEmail } = require('../helpers/mailHelper')
 
 const verification = async (req, res) => {
   const { verificationToken } = req.params
@@ -9,11 +10,11 @@ const verification = async (req, res) => {
 };
 const resendVerificationMail = async(req, res) => {
   const { email } = req.body
-  const isVerify = await checkVerify(email)
-  if (isVerify) {
+  const user = await checkVerify(email)
+  if (user.isVerify) {
     res.status(404).json({ message: 'Verification has already been passed' });
   }
-  console.log('sending mail')
+  sendEmail(user.verificationToken, email)
   res.status(200).json({ message: 'Verification email sent' });
 }
 

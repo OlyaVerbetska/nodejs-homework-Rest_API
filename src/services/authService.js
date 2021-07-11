@@ -7,7 +7,10 @@ const {
   RegistrationConflictError,
   UnauthorizeError,
   VerificationError,
+  ServiceUnavailableError
 } = require('../helpers/errors');
+
+const { sendEmail } = require('../helpers/mailHelper')
 
 const createUser = async (email, password) => {
   const existEmail = await UsersModel.findOne({ email });
@@ -17,6 +20,11 @@ const createUser = async (email, password) => {
 
   // ================ new
   const verifyToken = uuidv4()
+  // ================
+  try {
+    await sendEmail(verifyToken, email)
+  } catch (e) { throw new ServiceUnavailableError('Service Unavailable') }
+
   // ================
 
   const user = new UsersModel({
@@ -74,7 +82,7 @@ const findUserVerify = async({ verificationToken }) => {
 }
 const checkVerify = async ({ email }) => {
   const user = await UsersModel.findOne({ email: email })
-  return user.isVerify
+  return user
 }
 
 module.exports = { createUser, loginUser, findUser, findUserVerify, checkVerify };
