@@ -36,10 +36,10 @@ const sendEmail = async(verificationToken, email) => {
   const emailBody = mailTemplateCreate(verificationToken)
   const config = {
     host: 'i.ua',
-    port: 465,
+    port: 995,
     auth: {
       user: process.env.SENDER_EMAIL_FROM,
-      pass: '5661956',
+      pass: '5661956'
 
     },
     tls: {
