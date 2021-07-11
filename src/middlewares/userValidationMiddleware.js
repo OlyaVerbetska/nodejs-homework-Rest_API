@@ -24,6 +24,28 @@ const userDataValidation = (req, res, next) => {
   }
   next();
 };
+
+const userMailValidation = (req, res, next) => {
+  const validationSchemaPOST = Joi.object({
+    email: Joi.string()
+      .email({
+        minDomainSegments: 2,
+        tlds: { allow: ['com', 'net'] },
+      })
+      .required(),
+  });
+  const dataValidate = validationSchemaPOST.validate(req.body);
+  if (dataValidate.error) {
+    next(
+      new ValidationError(
+        JSON.stringify(dataValidate.error.message)
+      )
+    );
+  }
+  next();
+};
+
 module.exports = {
   userDataValidation,
+  userMailValidation
 };

@@ -6,12 +6,12 @@ const { asyncWrapper } = require('../../helpers/apiHelpers');
 const { authMiddleware } = require('../../middlewares/authMiddleware');
 
 const {
-  userDataValidation,
+  userDataValidation, userMailValidation
 } = require('../../middlewares/userValidationMiddleware');
 
 const AuthController = require('../../controllers/authController');
 const FilesController = require('../../controllers/filesController');
-const { verifyController } = require('../../controllers/verifyController')
+const verifyController = require('../../controllers/verifyController')
 
 router.post(
   '/signup',
@@ -35,7 +35,9 @@ router.patch(
 
 router.get(
   '/verify/:verificationToken',
-  verifyController
+  verifyController.verification
 );
+
+router.post('/verify/', userMailValidation, verifyController.resendVerificationMail)
 
 module.exports = router;

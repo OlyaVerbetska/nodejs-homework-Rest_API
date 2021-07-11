@@ -6,6 +6,7 @@ const { UsersModel } = require('../db/usersModel');
 const {
   RegistrationConflictError,
   UnauthorizeError,
+  VerificationError,
 } = require('../helpers/errors');
 
 const createUser = async (email, password) => {
@@ -35,6 +36,11 @@ const loginUser = async (email, password) => {
   if (!user) {
     throw new UnauthorizeError('User email is wrong');
   }
+  // ===============
+  if (!user.isVerify) {
+    throw new VerificationError('Verification failed');
+  }
+  // ==============
   const userCheck = await bcrypt.compare(password, user.password);
   if (!userCheck) {
     throw new UnauthorizeError('User password is wrong');
@@ -66,5 +72,9 @@ const findUserVerify = async({ verificationToken }) => {
   }
   return false
 }
+const checkVerify = async ({ email }) => {
+  const user = await UsersModel.findOne({ email: email })
+  return user.isVerify
+}
 
-module.exports = { createUser, loginUser, findUser, findUserVerify };
+module.exports = { createUser, loginUser, findUser, findUserVerify, checkVerify };
