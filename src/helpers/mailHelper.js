@@ -35,13 +35,17 @@ const mailTemplateCreate = (verificationToken) => {
 const sendEmail = async(verificationToken, email) => {
   const emailBody = mailTemplateCreate(verificationToken)
   const config = {
-    host: 'pop.i.ua',
+    host: 'i.ua',
     port: 465,
     auth: {
       user: process.env.SENDER_EMAIL_FROM,
       pass: '5661956',
 
     },
+    tls: {
+      // do not fail on invalid certs
+      rejectUnauthorized: false
+    }
   }
   const transporter = nodemailer.createTransport(config)
 
