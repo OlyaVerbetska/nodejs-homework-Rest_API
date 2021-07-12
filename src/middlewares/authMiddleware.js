@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { findUser } = require('../model/authService');
+const { findUser } = require('../services/authService');
 
 const { UnauthorizeError } = require('../helpers/errors');
 

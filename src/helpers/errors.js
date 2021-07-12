@@ -32,10 +32,25 @@ class UnauthorizeError extends contactsBookErrors {
   }
 }
 
+class VerificationError extends contactsBookErrors {
+  constructor(message) {
+    super(message);
+    this.status = 404;
+  }
+}
+class ServiceUnavailableError extends contactsBookErrors {
+  constructor(message) {
+    super(message);
+    this.status = 503;
+  }
+}
+
 module.exports = {
   contactsBookErrors,
   ValidationError,
   NotFoundContact,
   RegistrationConflictError,
   UnauthorizeError,
+  VerificationError,
+  ServiceUnavailableError
 };
